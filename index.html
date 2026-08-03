@@ -14,7 +14,6 @@
             margin: 0;
             padding: 40px;
         }
-        
         .controls {
             margin-bottom: 20px;
         }
@@ -43,12 +42,11 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             border-radius: 8px;
         }
-   
     </style>
 </head>
 <body>
 
-   
+    <!-- Removed API Key input container -->
 
     <div class="controls">
         <input type="text" id="searchInput" placeholder="Search any English word...">
@@ -58,6 +56,9 @@
     <canvas id="dictionaryCanvas" width="600" height="400"></canvas>
 
     <script>
+        // HARDCODED API KEY
+        const API_KEY = "AQ.Ab8RN6I705N-zzzZdDfqxtIXZhJL1J2qnwx3R_7GEPEQqPgf6w";
+
         const canvas = document.getElementById("dictionaryCanvas");
         const ctx = canvas.getContext("2d");
 
@@ -85,11 +86,10 @@
         }
 
         // Core logic: Fetch from Gemini API with Structured Output
-        async function fetchGeminiDictionary(word, apiKey) {
-           
-            
-
+        async function fetchGeminiDictionary(word) {
+            // Using a stable model endpoint
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+            
             const payload = {
                 contents: [{
                     parts: [{ 
@@ -154,7 +154,7 @@
                 ctx.fillText("Failed to fetch data.", marginX, currentY);
                 ctx.fillStyle = "#666";
                 ctx.font = "16px Arial";
-                ctx.fillText("Please check your API Key and try again.", marginX, currentY + 30);
+                ctx.fillText("Please check your internet connection.", marginX, currentY + 30);
                 return;
             }
 
@@ -203,17 +203,11 @@
 
         // Search Handler
         async function handleSearch() {
-            const apiKey = "AQ.Ab8RN6I705N-zzzZdDfqxtIXZhJL1J2qnwx3R_7GEPEQqPgf6w";
             const input = document.getElementById("searchInput").value.toLowerCase().trim();
-            
-            if (!apiKey) {
-                alert("Please enter your Gemini API Key first.");
-                return;
-            }
 
             if (input) {
                 drawLoading(); 
-                const data = await fetchGeminiDictionary(input, apiKey);
+                const data = await fetchGeminiDictionary(input);
                 drawEntry(input, data);
             }
         }
@@ -230,7 +224,7 @@
         window.onload = () => {
             ctx.fillStyle = "#888";
             ctx.font = "20px Arial";
-            ctx.fillText("Enter your API Key and a word, then click Search.", 70, 200);
+            ctx.fillText("Enter a word above and click Search.", 130, 200);
         };
     </script>
 </body>
