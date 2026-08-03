@@ -88,7 +88,7 @@
         // Core logic: Fetch from Gemini API with Structured Output
         async function fetchGeminiDictionary(word) {
             // Using a stable model endpoint
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`;
             
             const payload = {
                 contents: [{
